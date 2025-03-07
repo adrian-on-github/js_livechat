@@ -1,0 +1,83 @@
+:root {
+  font-family: "Poppins", sans-serif;
+  background-color: blanchedalmond;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  display: flex;
+  margin-top: 12px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  min-height: 78vh;
+  min-width: 120vh;
+  flex-direction: column;
+}
+
+.box-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: row;
+}
+
+.chatbox {
+  background-color: rgb(233, 233, 233);
+  border-radius: 18px;
+  min-width: 80vh;
+  min-height: 50vh;
+  max-height: 65vh;
+}
+
+#chatLayout {
+  padding-inline: 25px;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 4px;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+.input {
+  margin-top: 20px;
+  background-color: white;
+  border: 12;
+  border-color: black;
+  border-radius: 12px;
+  padding: 12px;
+  width: 100vh;
+}
+
+.formLayout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.submit {
+  margin-top: 4px;
+  background-color: rgb(61, 202, 48);
+  border-color: #000;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.row {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
