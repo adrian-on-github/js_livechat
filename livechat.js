@@ -77,10 +77,23 @@ class livechat {
   }
 
   _nachricht_erstellen(message) {
+    this._nachricht_length_check();
+
     const timestamp = new Date();
 
     const userNachricht = document.createElement("div");
     userNachricht.setAttribute("class", "row");
+    userNachricht.setAttribute("id", `${timestamp}`);
+
+    const delete_button = document.createElement("button");
+    delete_button.setAttribute("class", "del");
+    delete_button.textContent = "Delete Message";
+    delete_button.addEventListener("click", (e) => {
+      e.preventDefault();
+      const del = document.querySelector("#chatLayout");
+      const row = document.getElementById(timestamp);
+      del.removeChild(row);
+    });
 
     const userName_element = document.createElement("h1");
     const message_element = document.createElement("p");
@@ -91,6 +104,7 @@ class livechat {
 
     userNachricht.insertAdjacentElement("afterbegin", userName_element);
     userNachricht.insertAdjacentElement("beforeend", message_element);
+    message_element.insertAdjacentElement("afterend", delete_button);
 
     const messageObject = {
       name: this.userName,
@@ -100,10 +114,11 @@ class livechat {
 
     this.messages.push(messageObject);
 
-    this.messages.forEach((e) => {
-      console.log(e.timestamp);
-    });
+    const layout = document.querySelector("#chatLayout");
+    layout.insertAdjacentElement("afterbegin", userNachricht);
+  }
 
+  _nachricht_length_check() {
     if (this.messages.length >= 5) {
       this.messages.sort((message_a, message_b) => {
         if (message_a.timestamp > message_b.timestamp) {
@@ -113,12 +128,8 @@ class livechat {
         }
       });
       this.messages.splice(0, 2);
-      this.anzeigen();
       console.log(this.messages);
     }
-
-    const layout = document.querySelector("#chatLayout");
-    layout.insertAdjacentElement("afterbegin", userNachricht);
   }
 
   anzeigen() {

@@ -81,3 +81,11 @@
   justify-content: start;
   align-items: center;
 }
+
+.del {
+  background-color: #000;
+  color: red;
+  min-width: 12px;
+  min-height: 8px;
+  margin: 4px;
+}
