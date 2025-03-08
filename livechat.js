@@ -67,19 +67,26 @@ class livechat {
         return;
       }
 
-      this._nachricht_erstellen(input.value);
+      const timestamp = new Date();
+      this._nachricht_erstellen(this.userName, input.value, timestamp);
     });
 
     document
       .querySelector("body")
       .insertAdjacentElement("afterbegin", container);
+
+    if (this.messages.length > 0) {
+      this.messages.forEach((e) => {
+        console.log(e.name, e.message, e.timestamp);
+        this._generate_existing_message(e.name, e.message, e.timestamp);
+      });
+    }
+
     return container;
   }
 
-  _nachricht_erstellen(message) {
+  _generate_existing_message(name, message, timestamp) {
     this._nachricht_length_check();
-
-    const timestamp = new Date();
 
     const userNachricht = document.createElement("div");
     userNachricht.setAttribute("class", "row");
@@ -99,7 +106,41 @@ class livechat {
     const message_element = document.createElement("p");
     userName_element.setAttribute("class", "username");
 
-    userName_element.textContent = this.userName;
+    userName_element.textContent = name;
+    message_element.textContent = message;
+
+    userNachricht.insertAdjacentElement("afterbegin", userName_element);
+    userNachricht.insertAdjacentElement("beforeend", message_element);
+    message_element.insertAdjacentElement("afterend", delete_button);
+
+    console.log(this.messages);
+
+    const layout = document.querySelector("#chatLayout");
+    layout.insertAdjacentElement("afterbegin", userNachricht);
+  }
+
+  _nachricht_erstellen(name, message, timestamp) {
+    this._nachricht_length_check();
+
+    const userNachricht = document.createElement("div");
+    userNachricht.setAttribute("class", "row");
+    userNachricht.setAttribute("id", `${timestamp}`);
+
+    const delete_button = document.createElement("button");
+    delete_button.setAttribute("class", "del");
+    delete_button.textContent = "Delete Message";
+    delete_button.addEventListener("click", (e) => {
+      e.preventDefault();
+      const del = document.querySelector("#chatLayout");
+      const row = document.getElementById(timestamp);
+      del.removeChild(row);
+    });
+
+    const userName_element = document.createElement("h1");
+    const message_element = document.createElement("p");
+    userName_element.setAttribute("class", "username");
+
+    userName_element.textContent = name;
     message_element.textContent = message;
 
     userNachricht.insertAdjacentElement("afterbegin", userName_element);
@@ -107,28 +148,29 @@ class livechat {
     message_element.insertAdjacentElement("afterend", delete_button);
 
     const messageObject = {
-      name: this.userName,
-      text: message,
+      name: name,
+      message: message,
       timestamp: timestamp,
     };
 
     this.messages.push(messageObject);
+    console.log(this.messages);
 
     const layout = document.querySelector("#chatLayout");
     layout.insertAdjacentElement("afterbegin", userNachricht);
   }
 
   _nachricht_length_check() {
-    if (this.messages.length >= 5) {
-      this.messages.sort((message_a, message_b) => {
-        if (message_a.timestamp > message_b.timestamp) {
-          return 1;
-        } else if (message_a.timestamp < message_b.timestamp) {
-          return -1;
-        }
-      });
-      this.messages.splice(0, 2);
-      console.log(this.messages);
+    if (this.messages.length >= 6) {
+      const del = document.querySelector("#chatLayout");
+
+      for (let i = 1; this.messages.length >= i; i++) {
+        console.log(this.messages[0].timestamp);
+        const timestamp = this.messages[0].timestamp;
+        const row = document.getElementById(timestamp);
+        del.removeChild(row);
+        this.messages.shift();
+      }
     }
   }
 
