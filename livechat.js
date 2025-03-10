@@ -32,7 +32,7 @@ class livechat {
     const ol = document.createElement("ol");
 
     const all_usernames = document.createElement("p");
-    all_usernames.textContent = this.user_names;
+    // all_usernames.textContent = this.user_names;
     ol.insertAdjacentElement("afterbegin", all_usernames);
     users.appendChild(ol);
 
@@ -156,6 +156,14 @@ class livechat {
     this.messages.push(messageObject);
     console.log(this.messages);
 
+    this.messages.sort((message_a, message_b) => {
+      if (message_a.timestamp > message_b.timestamp) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+
     const layout = document.querySelector("#chatLayout");
     layout.insertAdjacentElement("afterbegin", userNachricht);
   }
@@ -164,13 +172,10 @@ class livechat {
     if (this.messages.length >= 6) {
       const del = document.querySelector("#chatLayout");
 
-      for (let i = 1; this.messages.length >= i; i++) {
-        console.log(this.messages[0].timestamp);
-        const timestamp = this.messages[0].timestamp;
-        const row = document.getElementById(timestamp);
-        del.removeChild(row);
-        this.messages.shift();
-      }
+      const timestamp = this.messages[0].timestamp;
+      const row = document.getElementById(timestamp);
+      del.removeChild(row);
+      this.messages.shift();
     }
   }
 
